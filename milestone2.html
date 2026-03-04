@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .book { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; }
+        .book img { max-width: 100px; }
+    </style>
+</head>
+<body>
+
+<h1>Search Results</h1>
+<div id="book-list"></div>
+
+<script>
+$(document).ready(function() {
+    $.getJSON('google-books-search.json', function(data) {
+        var books = data.items;
+        var output = '';
+        
+        $.each(books, function(i, book) {
+            var title = book.volumeInfo.title;
+            var author = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'No Author';
+            var description = book.volumeInfo.description || 'No Description Available';
+            var image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'no-image.jpg';
+            
+            output += '<div class="book">';
+            output += '<img src="' + image + '" alt="' + title + '">';
+            output += '<h3>' + title + '</h3>';
+            output += '<p><strong>Author(s):</strong> ' + author + '</p>';
+            output += '<p>' + description + '</p>';
+            output += '</div>';
+        });
+        
+        $('#book-list').html(output);
+    });
+});
+</script>
+
+</body>
+</html>

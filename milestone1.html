@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .book { padding: 20px; border: 1px solid #ccc; margin-bottom: 20px; }
+        .book img { max-width: 150px; }
+    </style>
+</head>
+<body>
+
+<h1>Book Details</h1>
+<div id="book-detail"></div>
+
+<script>
+$(document).ready(function() {
+    $.getJSON('google-books-book.json', function(book) {
+        var title = book.volumeInfo.title;
+        var author = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'No Author';
+        var description = book.volumeInfo.description || 'No Description Available';
+        var image = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'no-image.jpg';
+        
+        var output = '<div class="book">';
+        output += '<img src="' + image + '" alt="' + title + '">';
+        output += '<h3>' + title + '</h3>';
+        output += '<p><strong>Author(s):</strong> ' + author + '</p>';
+        output += '<p>' + description + '</p>';
+        output += '</div>';
+        
+        $('#book-detail').html(output);
+    });
+});
+</script>
+
+</body>
+</html>
